@@ -1,69 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+###  **React中行内事件绑定基本上有三种**
 
-In the project directory, you can run:
+> a. this.handleClick.bind(this)
 
-### `npm start`
+> b. ( ) => this.handleClick( )
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+> c. 写法稍繁琐
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+> > constructor中: this.handleClick = this.handleClick.bind(this)
 
-### `npm test`
+> > 配合
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> > this.handleClick
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+三种事件绑定的方法 效果一致 但是性能不同。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+因为前两种每一次点击btn之后
 
-### `npm run eject`
+=> 重新render
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+=> 重新绑定/重新生成一个全新的函数
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+对于写法b来说：
+1==1是true，但是{a: 1}却不等于{a:1}（储存对象）
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+虽然长得一样，但是内存地址是完全不一样，等于说是每次都在重新生。
 
-## Learn More
+但是最后一种，只有在constructor一开始构建的时候绑定仅此一次，性能就此得以优化。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+### 传参的优化
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+<Demo style = {{color: 'red'}} person = {{name: 'SKYE'}} other = {this.item}></Demo>
+```
 
-### Analyzing the Bundle Size
+每一次render 这里的style obj和person obj
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+都是重新生成一次的 浪费内存
 
-### Making a Progressive Web App
+推荐以other的方式，直接定义在constructor里: this.item = {age: 16}
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-# react-performance-optimization-notes
+或者在render里使用const来定义  const item = {age: 16}

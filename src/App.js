@@ -8,18 +8,17 @@ class App extends Component {
             num: 1
         }
         this.handleClick = this.handleClick.bind(this);
-        console.log("constructor")
+        this.item = 16;
     }
 
     handleClick() {
-        console.log("btn")
         this.setState({
             num: this.state.num + 1
         })
     }
 
     render() {
-        console.log("render");
+        const item = {age: 16}
         return (
             /* 3种事件绑定的方法 效果一致 但是性能不同
             * 因为前两种每一次点击btn之后 => 重新render => 重新绑定/重新生成一个全新的函数
@@ -29,9 +28,14 @@ class App extends Component {
                 <h1>num: {this.state.num} </h1>
                 <button onClick={this.handleClick.bind(this)}>btn1</button>
                 <button onClick={() => this.handleClick()}>btn2</button>
-
-                /* 推荐写法 */
+                {/* 推荐写法 */}
                 <button onClick={this.handleClick}>btn3</button>
+
+                {/* 每一次render 这里的style obj和person obj都是重新生成一次的 浪费内存
+                    推荐直接定义在constructor里: this.item = {age: 16}
+                    或者在render里使用const来定义  const item = {age: 16}
+                 */}
+                <Inside style = {{color: 'red'}} person = {{name: 'SKYE'}} other = {this.item}></Inside>
             </div>
 
             /*
@@ -42,4 +46,15 @@ class App extends Component {
     }
 }
 
+class Inside extends Component{
+    render() {
+        return (
+            <div>
+                <h1>hello, {this.props.person.name}</h1>
+                <h2>今年{this.props.other}岁</h2>
+            </div>
+
+        )
+    }
+}
 export default App;
