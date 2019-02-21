@@ -6,6 +6,7 @@
 > b. ( ) => this.handleClick( )
 > c. this.handleClick = this.handleClick.bind(this) + this.handleClick
 
+
 三种事件绑定的方法 效果一致 但是性能不同。
 因为前两种每一次点击btn之后
 => 重新render
