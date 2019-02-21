@@ -1,4 +1,23 @@
 import React from 'react';
+const {Map, is} = require('immutable');
+
+const obj1 = Map({ name: 'skye', other: { name: 'oliver'}});
+const obj2 = obj1.set('name', 'Tony');
+const obj3 = Map({ name: 'skye', age: 16});
+const obj4 = Map({ name: 'skye', age: 16});
+const obj5 = Map({ name: 'skye', other: { name: 'oliver'}});
+console.log(obj1 === obj2); // false
+console.log(obj1.get('other') === obj2.get('other')); // true 一旦生成，是通过hash值比较的
+console.log(is(obj3, obj4)); // true
+console.log(is(obj1, obj5)); // why false
+
+var map1 = {a:1,b:2}
+var map2 = map1;
+map1.a = 777;
+// a与b都更新为a:777,b:2
+console.log('二者相等 ' + map1 === map2); // true
+
+
 
 class MultipleComponents extends React.Component {
     constructor(props) {
@@ -27,7 +46,6 @@ class MultipleComponents extends React.Component {
         this.setState({
             num: this.state.num + 1
         });
-        console.log("父组件点击button")
     }
     handleClickAge() {
         this.setState({
@@ -36,12 +54,10 @@ class MultipleComponents extends React.Component {
                 nextYear: this.state.age.nextYear
             }
         });
-        console.log("父组件修改年龄")
     }
 
 
     render() {
-        console.log("父组件render")
         return (
             <div>
                 <h2>num: {this.state.num} </h2>
@@ -71,7 +87,6 @@ class Inside extends React.Component {
     }
 
     render() {
-        console.log("子组件render")
         return <h3>今年{this.props.age}岁</h3>
     }
 }
