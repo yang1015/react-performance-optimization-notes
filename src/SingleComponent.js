@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 
-class App extends Component {
+class SingleComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,7 @@ class App extends Component {
     }
 
     render() {
-        const item = {age: 16}
+
         return (
             /* 3种事件绑定的方法 效果一致 但是性能不同
             * 因为前两种每一次点击btn之后 => 重新render => 重新绑定/重新生成一个全新的函数
@@ -57,4 +57,4 @@ class Inside extends Component{
         )
     }
 }
-export default App;
+export default SingleComponent;
